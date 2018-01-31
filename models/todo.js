@@ -22,7 +22,7 @@ todoSchema.statics.create = function (data) {
 todoSchema.statics.findAll = function () {
   // return promise
   // V4부터 exec() 필요없음
-  return this.find({}).sort( { "todoid": 1 } );
+  return this.find({}).sort( { "todoid": -1 } );
 };
 
 // Find One by todoid

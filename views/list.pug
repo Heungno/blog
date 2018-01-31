@@ -13,6 +13,9 @@ block content
       tbody
         each val, index in todos
           tr
-            th(scope="row") #{val.todoid}
-            td #{val.content}
+            th(scope="row")
+               a(href="/todos/todoid/"+val.todoid) #{todos.length - index}
+            td
+              :markdown-it(linkify langPrefix='highlight-')
+                var.content
             td #{val.completed}

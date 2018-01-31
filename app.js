@@ -8,6 +8,7 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+
 //const fs = require('fs');
 //const rfs = require('rotating-file-stream')
 //const Logger = require('./logger.js');
@@ -24,11 +25,13 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /public
-app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public/img', 'favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/bower_components',  express.static(__dirname + '/bower_components'));
+//logger
 app.use(logger('dev'));
 
 /*
@@ -54,7 +57,8 @@ mongoose.connect(process.env.MONGO_URI)
 
 // routes
 app.use('/', require('./routes/index'));
-app.use('/todos', require('./routes/todos')); //MongoDB CRUD 테스트
+//app.use('/todos', require('./routes/todos')); //MongoDB CRUD 테스트
+require('./routes/post-route')(app, require('./routes/post'));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

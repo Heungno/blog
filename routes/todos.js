@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
 
 // Find One by todoid
 router.get('/todoid/:todoid', (req, res) => {
-  Todo.findOneByTodoid(req.params.todoid)
+  Todo.findOne(req.params.todoid)
     .then((todo) => {
       if (!todo) return res.status(404).send({ err: 'Todo not found' });
       res.send(todo);
@@ -37,7 +37,8 @@ router.get('/todoid/:todoid', (req, res) => {
 // Create new todo document
 router.post('/', (req, res) => {
   Todo.create(req.body)
-    .then(todo => res.redirect("todos"))
+    //.then(todo => res.redirect("todos"))
+    .then(todo => res.send(todo))
     .catch(err => res.status(500).send(err));
 });
 

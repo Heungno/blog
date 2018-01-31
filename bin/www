@@ -92,5 +92,6 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 
+  console.log(`===> 서버실행 (포트 : ${port})`);
 }
 

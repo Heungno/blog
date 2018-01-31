@@ -1,23 +1,74 @@
 extends layout
 
+block stylesheet 
+  link(rel="stylesheet", href="/bower_components/codemirror/lib/codemirror.css")
+  link(rel="stylesheet", href="/bower_components/highlightjs/styles/github.css")
+  link(rel="stylesheet", href="/bower_components/tui-editor/dist/tui-editor.css")
+  link(rel="stylesheet", href="/bower_components/tui-editor/dist/tui-editor-contents.css")
+
 block content
   div.container
     h1= title
     
-    form(action="/todos", method="post")
+    form(id="frm", action="/todos", method="post", onsubmit="return false;")
       div.form-group.row
-        label.col-sm-2.col-form-label(for="todoid") Todo ID
+        label.col-sm-2.col-form-label Title
         div.col-sm-10
-          input.form-control(type="number", name="todoid", id="todoid", placeholder="Todo ID")
+          input.form-control(type="text", name="title", id="title", placeholder="Title")
+      div.form-group.row
+        label.col-sm-2.col-form-label(for="todoid") Writer
+        div.col-sm-10
+          input.form-control(type="text", name="writer", id="writer", placeholder="Writer")
       div.form-group.row
         label.col-sm-2.col-form-label Content
         div.col-sm-10
-          input.form-control(type="text", name="content", id="content", placeholder="Content")
-      div.form-group.row
-        label.col-sm-2.col-form-label Completed
-        div.col-sm-10
-          input.form-control(type="text", name="completed", id="completed", placeholder="Completed")
+          div(id="content")
       div.form-group.row
         label.col-sm-2.col-form-label
         div.col-sm-10
-          button.btn.btn-primary.btn-lg.btn-block(type="submit") Submit form
+          button.btn.btn-primary.btn-lg.btn-block(type="buttion", id="btnSave") Submit form
+          button.btn.btn-info.btn-lg.btn-block(type="buttion", id="btnList") 리스트로
+
+block script
+  script(src="/bower_components/markdown-it/dist/markdown-it.js")
+  script(src="/bower_components/to-mark/dist/to-mark.js")
+  script(src="/bower_components/tui-code-snippet/dist/tui-code-snippet.js")
+  script(src="/bower_components/codemirror/lib/codemirror.js")
+  script(src="/bower_components/highlightjs/highlight.pack.js")
+  script(src="/bower_components/squire-rte/build/squire-raw.js")
+  script(src="/bower_components/tui-editor/dist/tui-editor-Editor.js")
+  script
+    |// 위지윅에디터
+    |$("#content").tuiEditor({
+    |   //initialEditType: "wysiwyg",
+    |   initialEditType: "markdown",
+    |   previewStyle: "vertical",
+    |   height: "300px",
+    |   language: "ko_KR"
+    |});
+    |// 저장
+    |$("#btnSave").click(function(){
+    |   $.ajax({
+    |       method: "POST",
+    |       url: "/posts",
+    |       data: {
+    |         "title": $("#title").val(),
+    |         "writer": $("#writer").val(),
+    |          "content": $("#content").tuiEditor("getValue")
+    |         } 
+    |      })
+    |     .done( function(data) {
+    |      alert(`success: ${data.title}`);
+    |     })
+    |    .fail( function(err) {
+    |       alert(`error: ${err.message}`);
+    |     })
+    |     .always( function() {
+    |      //alert(`목록으로 이동`);
+    |      //location.href = "/posts";
+    |   });
+    |});
+    |// 목록으로 가기
+    |$("#btnList").click(function(){
+    | location.href = "/posts";
+    |});
