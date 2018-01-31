@@ -28,7 +28,7 @@ exports.find = (req, res, next) => {
 };
 
 // 입력
-exports.saveData = (req, res, next) => {
+exports.create = (req, res, next) => {
   Post.create(req.body)
     .then(post => res.send(post))
     .catch(err => res.status(500).send(err));

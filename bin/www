@@ -4,9 +4,6 @@
  * Module dependencies.
  */
  
-//.ENV
-require('dotenv').config();
-
 const app = require('../app');
 const debug = require('debug')('workspace:server');
 const http = require('http');
@@ -91,7 +88,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
-
-  console.log(`===> 서버실행 (포트 : ${port})`);
 }
 

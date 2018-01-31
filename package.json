@@ -39,5 +39,12 @@
   "bugs": {
     "url": "https://github.com/Heungno/blog/issues"
   },
-  "homepage": "https://github.com/Heungno/blog#readme"
+  "homepage": "https://github.com/Heungno/blog#readme",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
 }

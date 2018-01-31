@@ -9,11 +9,6 @@ const favicon = require('serve-favicon');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-//const fs = require('fs');
-//const rfs = require('rotating-file-stream')
-//const Logger = require('./logger.js');
-//const logger = Logger.CreateLogger('my.log');
-
 const app = express();
 
 // pug 소스보기 줄바꿈 
@@ -30,22 +25,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+//bower 
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 //logger
 app.use(logger('dev'));
-
-/*
-// create a rotating write stream
-let logDirectory = path.join(__dirname, 'logs')
-let accessLogStream = rfs('access.log', {
-  interval: '1d', // rotate daily
-  path: logDirectory
-})
-// ensure log directory exists
-fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
-// setup the logger
-app.use(logger('[:date[iso]] :remote-addr - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"', {stream: accessLogStream}))
-*/
 
 // Node.js의 native Promise 사용
 mongoose.Promise = global.Promise;
@@ -57,7 +40,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 // routes
 app.use('/', require('./routes/index'));
-//app.use('/todos', require('./routes/todos')); //MongoDB CRUD 테스트
+app.use('/todos', require('./routes/todos')); //MongoDB CRUD 테스트
 require('./routes/post-route')(app, require('./routes/post'));
 
 // catch 404 and forward to error handler
