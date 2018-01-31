@@ -3,12 +3,25 @@ const Todo = require('../models/todo');
 
 // Find All
 router.get('/', (req, res) => {
-  Todo.findAll()
+  const todos = new Promise((resolve, reject) => Todo.findAll()
     .then((todos) => {
       if (!todos.length) return res.status(404).send({ err: 'Todo not found' });
-      res.send(`find successfully: ${todos}`);
+      //res.send(todos);
+      resolve(todos);
     })
-    .catch(err => res.status(500).send(err));
+    .catch(err => {
+      //res.status(500).send(err)
+      reject(err);
+    })
+  ); 
+ 
+ // 서버단 작업끝
+ Promise.all([todos]).then((values) => {
+   res.render('list', { "title": "Todo List", "todos": values[0] });
+ }); 
+  
+  
+  
 });
 
 // Find One by todoid
@@ -16,16 +29,15 @@ router.get('/todoid/:todoid', (req, res) => {
   Todo.findOneByTodoid(req.params.todoid)
     .then((todo) => {
       if (!todo) return res.status(404).send({ err: 'Todo not found' });
-      res.send(`findOne successfully: ${todo}`);
+      res.send(todo);
     })
     .catch(err => res.status(500).send(err));
 });
 
 // Create new todo document
 router.post('/', (req, res) => {
-  console.log(req.body);
   Todo.create(req.body)
-    .then(todo => res.send(todo))
+    .then(todo => res.redirect("todos"))
     .catch(err => res.status(500).send(err));
 });
 

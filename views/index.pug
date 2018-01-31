@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  div.container
+    h1= title
+    
+    form(action="/todos", method="post")
+      div.form-group.row
+        label.col-sm-2.col-form-label(for="todoid") Todo ID
+        div.col-sm-10
+          input.form-control(type="number", name="todoid", id="todoid", placeholder="Todo ID")
+      div.form-group.row
+        label.col-sm-2.col-form-label Content
+        div.col-sm-10
+          input.form-control(type="text", name="content", id="content", placeholder="Content")
+      div.form-group.row
+        label.col-sm-2.col-form-label Completed
+        div.col-sm-10
+          input.form-control(type="text", name="completed", id="completed", placeholder="Completed")
+      div.form-group.row
+        label.col-sm-2.col-form-label
+        div.col-sm-10
+          button.btn.btn-primary.btn-lg.btn-block(type="submit") Submit form

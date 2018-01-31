@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  div.container
+    h1= title
+    
+    table.table.table-hover
+      thead
+        tr
+          th(scope='col') ID
+          th(scope='col') Content
+          th(scope='col') Completed
+      tbody
+        each val, index in todos
+          tr
+            th(scope="row") #{val.todoid}
+            td #{val.content}
+            td #{val.completed}

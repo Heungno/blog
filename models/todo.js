@@ -2,19 +2,18 @@ const mongoose = require('mongoose');
 
 // Define Schemes
 const todoSchema = new mongoose.Schema({
-  todoid: { type: Number, required: true, unique: true },
-  content: { type: String, required: true },
-  completed: { type: String, default: false }
+  todoid:     { type: Number, required: true, unique: true },
+  content:    { type: String, required: true },
+  completed:  { type: String, default: false }
 },
 {
   timestamps: true
 });
 
 // Create new todo document
-todoSchema.statics.create = function (payload) {
+todoSchema.statics.create = function (data) {
   // this === Model
-  const todo = new this(payload);
-  console.log(`todo: ${todo}`);
+  const todo = new this(data);
   // return Promise
   return todo.save();
 };
@@ -23,7 +22,7 @@ todoSchema.statics.create = function (payload) {
 todoSchema.statics.findAll = function () {
   // return promise
   // V4부터 exec() 필요없음
-  return this.find({});
+  return this.find({}).sort( { "todoid": 1 } );
 };
 
 // Find One by todoid

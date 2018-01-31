@@ -1,0 +1,26 @@
+{
+  "name": "blog",
+  "description": "node.js로 Blog 만들기",
+  "main": "app.js",
+  "authors": [
+    "Heungno"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "blog",
+    "node.js",
+    "express",
+    "mongodb"
+  ],
+  "homepage": "https://github.com/Heungno/blog",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^4.0.0"
+  }
+}
