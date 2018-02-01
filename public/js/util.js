@@ -7,8 +7,8 @@ $(window).scroll(function(event){
         $("#footer").css("opacity",Number($("#headnav").css("opacity"))-0.2);
    } else {
         // upscroll code
-         $("#headnav").css("opacity",Number($("#headnav").css("opacity"))+0.2);
-         $("#footer").css("opacity",Number($("#headnav").css("opacity"))+0.2);
+         $("#headnav").css("opacity",Number($("#headnav").css("opacity"))+0.5);
+         $("#footer").css("opacity",Number($("#headnav").css("opacity"))+0.5);
    }
    lastScrollTop = st;
 });
