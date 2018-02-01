@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 
 // Define Schemes
 const postSchema = new mongoose.Schema({
-  title: { type: String, required: true }, //제목
+  //id : { type: Number, required: true, unique: true },
+  title: { type: String, required: true, unique: true }, //제목
   content: { type: String, required: true }, // 내용
   catagory: { type: String, required: true, default: "blog" }, // 카테고리
   flag: { type: Boolean, default: true}, // 상태
@@ -17,22 +18,22 @@ const postSchema = new mongoose.Schema({
   timestamps: true
 });
 
+
+
 // 전체조회
 postSchema.statics.findAll = function () {
   return this.find({});
 };
 
 // 조회
-postSchema.statics.findOne = function (id) {
-  return this.find({ "id" : id });
+postSchema.statics.findOne = function (title) {
+  return this.find({ title });
 };
 
 // 입력
 postSchema.statics.create = function (data) {
   // this === Model
   const post = new this(data);
-  
-  console.log(post);
   // return Promise
   return post.save();
 };

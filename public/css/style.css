@@ -3,10 +3,14 @@
 /* Noto Sans KR */
 /*@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);*/
 body {
-  padding: 50px;
+  /*padding: 50px;*/
   font: 14px "Noto Sans KR", "Nanum Gothic Coding", "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+
+.container{
+  padding:50px 10px;
 }

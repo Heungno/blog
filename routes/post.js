@@ -17,7 +17,7 @@ exports.findAll = (req, res, next) => {
 
 // 조회
 exports.find = (req, res, next) => {
-  Post.findOne(req.params.id)
+  Post.findOne(req.params.title)
     .then(post => {
       if (!post.length) return res.status(404).send({ err: 'Not found' });
         res.send(post);
@@ -31,7 +31,12 @@ exports.find = (req, res, next) => {
 exports.create = (req, res, next) => {
   Post.create(req.body)
     .then(post => res.send(post))
-    .catch(err => res.status(500).send(err));
+    .catch(err => {
+      
+      console.error(err.message);
+      res.status(500).send(err);
+      
+    });
 };
 
 // 수정

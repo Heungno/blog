@@ -9,6 +9,7 @@ block content
         tr
           th(scope='col') ID
           th(scope='col') Content
+          th(scope='col') Content
           th(scope='col') Completed
       tbody
         each val, index in todos
@@ -17,5 +18,10 @@ block content
                a(href="/todos/todoid/"+val.todoid) #{todos.length - index}
             td
               :markdown-it(linkify langPrefix='highlight-')
-                var.content
+                **asdfasdf** 
+                - - - 
+                > asdfasdfasdf
+            td
+              :markdown-it(linkify langPrefix='highlight-')= val.content
+                
             td #{val.completed}
