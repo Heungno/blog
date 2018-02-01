@@ -40,36 +40,7 @@ block script
   script(src="/bower_components/highlightjs/highlight.pack.js")
   script(src="/bower_components/squire-rte/build/squire-raw.js")
   script(src="/bower_components/tui-editor/dist/tui-editor-Editor.js")
+  
   script
-    |// 위지윅에디터
-    |$("#content").tuiEditor({
-    |   //initialEditType: "wysiwyg",
-    |   initialEditType: "markdown",
-    |   previewStyle: "vertical",
-    |   height: "300px",
-    |   language: "ko_KR"
-    |});
-    |// 저장
-    |$("#btnSave").click(function(){
-    |   $.ajax({
-    |       method: "POST",
-    |       url: "/posts",
-    |       data: {
-    |         "title": $("#title").val(),
-    |         "writer": $("#writer").val(),
-    |          "content": $("#content").tuiEditor("getValue")
-    |         } 
-    |      })
-    |     .done( (data) => {
-    |         $("#massageBox").attr({class: "alert alert-success"}).html(`저장성공: ${ data.title }`);
-    |      })
-    |     .fail( (err) => {
-    |         $("#massageBox").attr({class: "alert alert-danger"}).html(`error: ${ err.responseText }`); 
-    |     })
-    |     .always( (data) => {
-    |       //alert(JSON.stringify(data));
-    |       //location.href = "/posts";
-    |     });
-    |});
-    |// 목록으로 가기
-    |$("#btnList").click( () => location.href = "/posts");
+    include js/test.js
+    

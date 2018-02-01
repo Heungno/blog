@@ -27,6 +27,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //bower 
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
+app.use('/files', express.static('uploads'));
 //logger
 app.use(logger('dev'));
 
