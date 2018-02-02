@@ -1,14 +1,111 @@
-extends layout
+extends ../layout
+
+block stylesheet 
+  link(rel="stylesheet", href="/bower_components/tui-editor/dist/tui-editor-contents.css")
+
+  
 
 block content
+      
+  div.blog-header
+    div.container
+      h1.blog-title= pageInfo.catagory
+        p.lead.blog-description= pageInfo.description
+  // /.blog-header
+
   div.container
-    h1= title
-    
-    table.table.table-hover
-      thead
-        tr
-          th(scope='col') ID
-          th(scope='col') Content
-          th(scope='col') Content
-          th(scope='col') Completed
+    div.row
+      div.col-sm-8.blog-main
+        div#blog-post
+          div.blog-post
+            h2.blog-post-title ㅁㅁㅁ
+            p.blog-post-mata 2018-02-02 by
+              a(href="#")  Heungno
+            div.blog-post-content ㅁㅁㅁㅁㅁㅁ
         
+
+        // /.blog-post
+          
+        //mixin postList(title, contents)
+          div.blog-post
+            h2.blog-post-title #{ title }
+            p.blog-post-mata 2018-02-02 by
+              a(href="#")  Heungno
+            div.blog-post-content= contents
+
+
+        nav.blog-pagination
+          a.btn.btn-outline-primary#moreBtn  More 
+          //a.btn.btn-outline-secondary(disabled, href="#")  Newer 
+        // /.blog-pagination
+      // /.blog-main
+      // include sidebar
+      include ../include/sidebar
+
+
+block script  
+  script(src="/bower_components/markdown-it/dist/markdown-it.js")
+  script(src="/bower_components/tui-code-snippet/dist/tui-code-snippet.js")
+  script(src="/bower_components/tui-editor/dist/tui-editor-Viewer.js")
+
+  script(type="text/javascript").
+    /*for(var i = 0; i < $('.blog-post-content').length; i++){
+      var target= ".blog-post-content:eq("+ i +")";
+      var markdown = $(target).html();
+      $(target).html("");
+      $(target).tuiEditor({
+        height: '300px',
+        initialValue: markdown
+      });
+    }*/
+    
+   
+    var page= 0;
+    var getMorePosts = (_page) =>{
+      $.ajax({
+        method: "GET",
+        url: "#{ pageInfo.catagory }/posts",
+        data: {
+          page: _page
+        } 
+      })
+      .done( (data) => {
+        $.each(data, (index, value) =>{
+          $.blog_post =  $("<div>",{ class: "blog-post" });
+          $.blog_post_title =  $("<h2>", { class: "blog-post-title" , "text":value.title });
+          $.blog_post_mata=  $("<p>",{ class: "blog-post-mata" , "text": `${ value.createdAt } by `  });
+          $.blog_post_createdAt=  $("<a>", { text: value.writer , href: ""});
+          $.blog_post_content =  $("<div>",{ class: "blog-post-content" });
+          
+          $.blog_post_content.tuiEditor({
+            height: '300px',
+            initialValue: value.content
+          });
+          
+          $.blog_post_mata.append($.blog_post_createdAt);
+          $.blog_post.append($.blog_post_title);
+          $.blog_post.append($.blog_post_mata);
+          $.blog_post.append($.blog_post_content);
+          $("#blog-post").append($.blog_post);
+          
+          if(data.length < 10) $("#moreBtn").hide();
+        });
+      })
+      .fail( (err) => {
+        alert(err.responseText); 
+      })
+      .always( (data) => {
+        //alert(JSON.stringify(data));
+        //location.href = "/posts";
+      });
+      page ++;
+    }
+    
+    $(() =>{
+      getMorePosts(page);
+    });
+    
+    $("#moreBtn").click(() => {
+      getMorePosts(page);
+      
+    });

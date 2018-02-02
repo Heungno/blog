@@ -43,7 +43,7 @@ mongoose.connect(process.env.MONGO_URI)
 // routes
 app.use('/', require('./routes/index'));
 app.use('/todos', require('./routes/todos')); //MongoDB CRUD 테스트
-require('./routes/post-route')(app, require('./routes/post'));
+require('./routes/posts-route')(app, require('./routes/posts'));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

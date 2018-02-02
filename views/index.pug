@@ -9,8 +9,8 @@ block stylesheet
 block content
   div.container
     div.page-header
-      h1= title
-        small  ---
+      h1= pageInfo.catagory
+        small= pageInfo.description
     
     form(id="frm", action="/todos", method="post", onsubmit="return false;")
       div.form-group.row
@@ -21,6 +21,20 @@ block content
         label.col-sm-2.col-form-label(for="todoid") Writer
         div.col-sm-10
           input.form-control(type="text", name="writer", id="writer", placeholder="Writer")
+      div.form-group.row
+        label.col-sm-2.col-form-label(for="todoid") Catagory
+        div.form-check.form-check-inline
+          label.form-check-label
+            input#inlineRadio1.form-check-input(type='radio', name='catagory', value='blog', checked= pageInfo.catagory=='blog' ? true : false)
+            |   Blog
+        div.form-check.form-check-inline
+          label.form-check-label
+            input#inlineRadio2.form-check-input(type='radio', name='catagory', value='test1', checked= pageInfo.catagory=='test1' ? true : false)
+            |   test1
+        div.form-check.form-check-inline.disabled
+          label.form-check-label
+            input#inlineRadio3.form-check-input(type='radio', name='catagory', value='test2', checked= pageInfo.catagory=='test2' ? true : false)
+            |   test2  
       div.form-group.row
         label.col-sm-2.col-form-label Content
         div.col-sm-10
@@ -41,60 +55,56 @@ block script
   script(src="/bower_components/squire-rte/build/squire-raw.js")
   script(src="/bower_components/tui-editor/dist/tui-editor-Editor.js")
   
-  script
-    |// 위지윅에디터
-    |$("#content").tuiEditor({
-    |  //initialEditType: "wysiwyg",
-    |  initialEditType: "markdown",
-    |  previewStyle: "vertical",
-    |  height: "300px",
-    |  language: "ko_KR",
-    |  hooks: {
-    |    'addImageBlobHook': function(file, callback) {
-    |      //이미지 블롭을 이용해 서버 연동 후 콜백실행
-    |      //callback('이미지URL');
-    |      //callback("files/a4ebce3830aea90e94fba8a896e968b9");
-    |  
-    |       var formData = new FormData();
-    |        formData.append("file", file);
-    |        $.ajax({
-    |            url: '/upload',
-    |            type: 'POST',
-    |            data: formData,
-    |            cache: false,
-    |            contentType: false,
-    |            processData: false,
-    |            success: function(data) {
-    |               callback(data.path);
-    |            }
-    |        });
-    |      
-    |    }
-    |  }
-    |});
-    |// 저장
-    |$("#btnSave").click(function(){
-    |  $.ajax({
-    |    method: "POST",
-    |    url: "/posts",
-    |    data: {
-    |      "title": $("#title").val(),
-    |      "writer": $("#writer").val(),
-    |      "content": $("#content").tuiEditor("getValue")
-    |    } 
-    |  })
-    |  .done( (data) => {
-    |    $("#massageBox").attr({class: "alert alert-success"}).html(`저장성공: ${ data.title }`);
-    |  })
-    |  .fail( (err) => {
-    |    $("#massageBox").attr({class: "alert alert-danger"}).html(`error: ${ err.responseText }`); 
-    |  })
-    |  .always( (data) => {
-    |    //alert(JSON.stringify(data));
-    |    //location.href = "/posts";
-    |  });
-    |});
-    |// 목록으로 가기
-    |$("#btnList").click( () => location.href = "/posts");
-
-    
+  script(type="text/javascript").
+    // 위지윅에디터
+    $("#content").tuiEditor({
+      //initialEditType: "wysiwyg",
+      initialEditType: "markdown",
+      previewStyle: "vertical",
+      height: "300px",
+      language: "ko_KR",
+      hooks: {
+        'addImageBlobHook': function(file, callback) {
+          //이미지 블롭을 이용해 서버 연동 후 콜백실행
+          //callback('이미지URL');
+          var formData = new FormData();
+          formData.append("file", file);
+          $.ajax({
+              url: '/upload',
+              type: 'POST',
+              data: formData,
+              cache: false,
+              contentType: false,
+              processData: false,
+              success: function(data) {
+                 callback(`/${data.path}`);
+              }
+          });
+        }
+      }
+    });
+    // 저장
+    $("#btnSave").click(function(){
+      $.ajax({
+        method: "POST",
+        url: "posts",
+        data: {
+          "title": $("#title").val(),
+          "writer": $("#writer").val(),
+          "content": $("#content").tuiEditor("getValue"),
+          "catagory": $("input:radio[name=catagory]:checked").val()
+        } 
+      })
+      .done( (data) => {
+        $("#massageBox").attr({class: "alert alert-success"}).html(`저장성공: ${ data.title }`);
+      })
+      .fail( (err) => {
+        $("#massageBox").attr({class: "alert alert-danger"}).html(`error: ${ err.responseText }`); 
+      })
+      .always( (data) => {
+        //alert(JSON.stringify(data));
+        //location.href = "/posts";
+      });
+    });
+    // 목록으로 가기
+    $("#btnList").click( () => location.href = "posts")    

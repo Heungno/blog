@@ -20,7 +20,7 @@ $("#content").tuiEditor({
             contentType: false,
             processData: false,
             success: function(data) {
-               callback(data.path);
+               callback(`/${data.path}`);
             }
         });
       
@@ -31,11 +31,12 @@ $("#content").tuiEditor({
 $("#btnSave").click(function(){
   $.ajax({
     method: "POST",
-    url: "/posts",
+    url: "posts",
     data: {
       "title": $("#title").val(),
       "writer": $("#writer").val(),
-      "content": $("#content").tuiEditor("getValue")
+      "content": $("#content").tuiEditor("getValue"),
+      "catagory": $("input:radio[name=catagory]:checked").val()
     } 
   })
   .done( (data) => {
@@ -50,4 +51,4 @@ $("#btnSave").click(function(){
   });
 });
 // 목록으로 가기
-$("#btnList").click( () => location.href = "/posts")
+$("#btnList").click( () => location.href = "posts")
