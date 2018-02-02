@@ -6,10 +6,14 @@ $(window).scroll(function(event){
         // downscroll code
         $("#headnav").css("opacity",Number($("#headnav").css("opacity"))-0.2);
         $("#footer").css("opacity",Number($("#headnav").css("opacity"))-0.2);
+        
+        menuShow= false;
    } else {
         // upscroll code
          $("#headnav").css("opacity",Number($("#headnav").css("opacity"))+0.5);
          $("#footer").css("opacity",Number($("#headnav").css("opacity"))+0.5);
+         
+         menuShow= true;
    }
    lastScrollTop = st;
    
