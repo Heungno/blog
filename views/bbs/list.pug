@@ -17,21 +17,6 @@ block content
     div.row
       div.col-sm-8.blog-main
         div#blog-post
-          div.blog-post
-            h2.blog-post-title ㅁㅁㅁ
-            p.blog-post-mata 2018-02-02 by
-              a(href="#")  Heungno
-            div.blog-post-content ㅁㅁㅁㅁㅁㅁ
-        
-
-        // /.blog-post
-          
-        //mixin postList(title, contents)
-          div.blog-post
-            h2.blog-post-title #{ title }
-            p.blog-post-mata 2018-02-02 by
-              a(href="#")  Heungno
-            div.blog-post-content= contents
 
 
         nav.blog-pagination
@@ -60,7 +45,7 @@ block script
     }*/
     
    
-    var page= 0;
+    var page= $(".blog-post").length / 10;
     var getMorePosts = (_page) =>{
       $.ajax({
         method: "GET",

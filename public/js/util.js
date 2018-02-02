@@ -1,4 +1,5 @@
 let lastScrollTop = 0;
+let menuShow = true;
 $(window).scroll(function(event){
    let st = $(this).scrollTop();
    if (st > lastScrollTop){
@@ -11,8 +12,29 @@ $(window).scroll(function(event){
          $("#footer").css("opacity",Number($("#headnav").css("opacity"))+0.5);
    }
    lastScrollTop = st;
+   
 });
 
+$(document).click(function(e){
+    
+    if(lastScrollTop < 50) {
+        menuShow = true
+        $("#headnav").css("opacity",1);
+        $("#footer").css("opacity",1);
+        
+    } else {
+        menuShow = !menuShow;
+        if(menuShow){
+            $("#headnav").css("opacity",1);
+            $("#footer").css("opacity",1);
+        }else {
+            $("#headnav").css("opacity",0);
+            $("#footer").css("opacity",0);
+        }
+    }
+
+});
+/*
 function FileUpload(img, file) {
   var reader = new FileReader();  
   this.ctrl = createThrobber(img);
@@ -38,4 +60,4 @@ function FileUpload(img, file) {
     xhr.send(evt.target.result);
   };
   reader.readAsBinaryString(file);
-}
+}*/
