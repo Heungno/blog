@@ -54,6 +54,7 @@ block script
   script(src="/bower_components/highlightjs/highlight.pack.js")
   script(src="/bower_components/squire-rte/build/squire-raw.js")
   script(src="/bower_components/tui-editor/dist/tui-editor-Editor.js")
+  script(src="/bower_components/tui-editor/dist/dist/tui-editor-extScrollSync.js")
   
   script(type="text/javascript").
     // 위지윅에디터
@@ -63,6 +64,7 @@ block script
       previewStyle: "vertical",
       height: "300px",
       language: "ko_KR",
+      exts: ['scrollSync'],
       hooks: {
         'addImageBlobHook': function(file, callback) {
           //이미지 블롭을 이용해 서버 연동 후 콜백실행

@@ -26,5 +26,16 @@ div.col-sm-3.offset-sm-1.blog-sidebar
         a(href="#") Twitter
       li 
         a(href="#") Facebook 
+
+  div.sider-module
+    //h4 채팅
+    //div.form-group.row
+      textarea#chatLog.form-control
+      form
+        div.form-group.row
+          input.col-sm-3.form-control(type="text", placeholder="이름")
+          input.col-sm-9.form-control(type="text", placeholder="내용을 입력하세요")
+    
+    iframe(src="/html/chat.html", style="height:500px; width:100%")
   // /.sidebar-module
 // /.blog-sidebar        

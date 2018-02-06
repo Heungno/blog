@@ -21,6 +21,10 @@ $(window).scroll(function(event){
 
 $(document).click(function(e){
     
+    /*if (!$(e.target).is('#div_id')) {
+        // code
+    }*/
+    
     if(lastScrollTop < 50) {
         menuShow = true
         $("#headnav").css("opacity",1);

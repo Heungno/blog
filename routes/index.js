@@ -14,8 +14,9 @@ const pageInfo = {
 /* GET home page. */
 router.get('/', function(req, res, next) {
   pageInfo.catagory = req.params.catagory;
-  pageInfo.description = "Node.js MongoDB PUG 공부중";
-  res.render('index', { "pageInfo": pageInfo });
+  pageInfo.description = "Node.js MongoDB PUG ";
+  //res.render('bbs/list', { "pageInfo": pageInfo });
+  res.redirect("/blog");
 });
 
 // file upload
@@ -27,15 +28,20 @@ router.post('/upload', upload.single('file'), function(req,res){
 /* GET 글 입력 페이지*/
 router.get('/:catagory/input', function(req, res, next) {
   pageInfo.catagory = req.params.catagory;
-  pageInfo.description = "Node.js MongoDB PUG 공부중";
+  pageInfo.description = "Node.js MongoDB PUG ";
   res.render('index', { "pageInfo": pageInfo });
 });
 
 /* GET 리스트 페이지*/
 router.get('/:catagory', function(req, res, next) {
   pageInfo.catagory = req.params.catagory;
-  pageInfo.description = "Node.js MongoDB PUG 공부중";
+  pageInfo.description = "Node.js MongoDB PUG ";
   res.render('bbs/list', { "pageInfo": pageInfo });
+});
+
+/* GET 리스트 페이지*/
+router.get('/chat/side', function(req, res, next) {
+  res.sendfile('/html/chat.html');
 });
 
 module.exports = router;

@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "async": "^2.6.0",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
     "date-utils": "^1.2.21",
@@ -20,7 +21,7 @@
     "path": "^0.12.7",
     "pug": "^2.0.0-rc.4",
     "serve-favicon": "~2.4.5",
-    "winston-daily-rotate-file": "^1.7.2"
+    "socket.io": "^2.0.4"
   },
   "description": "node.js로 Blog 만들기",
   "main": "app.js",

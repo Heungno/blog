@@ -1,7 +1,8 @@
 /**
  * posts route
  */
-module.exports = (app, fn) => {
+ 
+module.exports = function(app, fn) {
     // 전체조회
     app.get('/:catagory/posts',fn.findAllPosts);
     // 조회

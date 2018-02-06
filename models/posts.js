@@ -22,13 +22,11 @@ const postsSchema = new mongoose.Schema({
 
 // 전체조회
 postsSchema.statics.findAllPosts = function (params) {
-  console.log(`findAllPosts: ${JSON.stringify(params)}`);
-  return this.find({ catagory: params.catagory }).sort({ _id: -1}).skip(params.page*10).limit(10);
+  return this.find({ catagory: params.catagory }).sort({ _id: -1}).skip(params.page*5).limit(5);
 };
 
 // 조회
 postsSchema.statics.findPosts = function (params) {
-  console.log(`findPosts: ${JSON.stringify(params)}`);
   return this.find({ params }).sort({ _id: -1}).skip(params.page*1).limit(1);
 };
 

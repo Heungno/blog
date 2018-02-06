@@ -12,7 +12,7 @@ block content
       h1.blog-title= pageInfo.catagory
         p.lead.blog-description= pageInfo.description
   // /.blog-header
-
+  
   div.container
     div.row
       div.col-sm-8.blog-main
@@ -20,7 +20,7 @@ block content
 
 
         nav.blog-pagination
-          a.btn.btn-outline-primary#moreBtn  More 
+          button.btn.btn-outline-primary#moreBtn(data-loading-text="<i class='fa fa-spinner fa-spin '></i> Processing Order")  More 
           //a.btn.btn-outline-secondary(disabled, href="#")  Newer 
         // /.blog-pagination
       // /.blog-main
@@ -73,7 +73,7 @@ block script
           $.blog_post.append($.blog_post_content);
           $("#blog-post").append($.blog_post);
           
-          if(data.length < 10) $("#moreBtn").hide();
+          if(data.length < 5) $("#moreBtn").hide();
         });
       })
       .fail( (err) => {
@@ -91,6 +91,8 @@ block script
     });
     
     $("#moreBtn").click(() => {
+      var $this = $(this);
+      $this.button('loading');
       getMorePosts(page);
       
     });

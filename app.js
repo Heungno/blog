@@ -11,8 +11,11 @@ const logger = require('morgan');
 
 const app = express();
 
+
+
 // pug 소스보기 줄바꿈 
 app.locals.pretty = app.get('env') === 'development' ? true : false;
+
 
 
 // view engine setup
@@ -42,8 +45,8 @@ mongoose.connect(process.env.MONGO_URI)
 
 // routes
 app.use('/', require('./routes/index'));
-app.use('/todos', require('./routes/todos')); //MongoDB CRUD 테스트
 require('./routes/posts-route')(app, require('./routes/posts'));
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -62,5 +65,7 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;
