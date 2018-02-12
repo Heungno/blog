@@ -1,22 +1,161 @@
-doctype html
-html
-  head
-    meta(charset='utf-8')
-    title Socket.io
-  body
-    h1 Communication with socket.io !
-    p
-      input#poke(type='button', value='bother server')
-    script(src='http://code.jquery.com/jquery-1.10.1.min.js')
-    script(src='/socket.io/socket.io.js')
-    script.
-      var socket = io.connect('http://localhost:8080');
-      console.log('socket conneted....');
-      var nickname = prompt('nickname ?');
-      socket.emit('nickname', nickname);
-      socket.on('message', function(message) {
-      alert('The server has a message for you : ' + message);
-      })
-      $('#poke').click(function () {
-      socket.emit('message', 'server Hi, are you?');
-      })
+extends ../layout
+
+block stylesheet
+  link(rel="stylesheet", href="/css/chat.css")
+  
+block content
+  div.containe-fluid#chatJoin
+    form.form-signin#chatJoinForm
+      h4.form-signin-heading 채팅
+      label.sr-only(for="nickname") 닉네임
+      input.form-control#nickname(name="nickname", type="text", placeholder="닉네임을 입력하세요..",required=true, autofocus=true)
+      button.btn.btn-lg.btn-primary.btn-block(type="submit") 입장
+     
+  div.containe-fluid#chatRoom(style="display:none;")
+    
+    // Nav tabs
+    
+    ul.nav.nav-tabs(role='tablist')
+      li.nav-item
+        a.nav-link.active(data-toggle='tab', href='#chatMsg') 채팅
+      li.nav-item
+        a.nav-link(data-toggle='tab', href='#chatUser') 접속자
+    
+    // Tab panes
+    
+    div.tab-content
+      div#chatMsg.containe-fluid.tab-pane.active
+        ul#msgList
+        form#chatMsgForm
+          div.input-group.fixed-bottom
+            input.form-control#msgText(type="text", name="msg", autocomplete="off", placeholder="전송할 내용을 입력하세요..")
+            span.input-group-btn
+              button.btn.btn-secondary(type="submit") 전송
+      div#chatUser.containe-fluid.tab-pane.fade
+        ul#userList
+        // ./tab-content
+
+block script 
+  script(src="/socket.io/socket.io.js")
+  script.
+    $(function () {
+      var socket;
+      function createNickname(nickName) {
+        socket.emit('create_nickname', nickName, function (returnCode) {
+          if (returnCode == 1) {
+            //정상적인 닉네임
+            $('#chatJoin').hide();
+            $('#chatRoom').show();
+            $('#msgText').focus();
+          } else { //아니면 닉네임중복됨
+            alert('존재하는 닉네임입니다.');
+            $('#nickname').focus();
+            socket.disconnect();
+          }
+        });
+      }
+      function msgAdd(data) {
+        var sHtml = '<li><span style="color:blue;">' + data['nickname'] +
+            '</span> : ' + data['msg'] + '</li>';
+        $('#msgList').append(sHtml);
+        $("#msgList").scrollTop($("#msgList")[0].scrollHeight);
+      }
+      $('#chatMsgForm').submit(function (event) {
+        event.preventDefault();
+        var data = {
+          "msg"   : $('#msgText').val(),
+          "nickname": $('#nickname').val()
+        }
+        msgAdd(data);
+        $('#msgText').val('');
+        $('#msgText').focus();
+        //서버에 입력메세지전달
+        socket.emit('msgSend', data);
+      });
+      $('#chatJoinForm').submit(function (event) {
+        event.preventDefault();
+        if (!$('#nickname').val()) {
+          alert("닉네임을 입력해주세요");
+          $('#nickname').focus();
+          return false;
+        }
+        /*
+         *https://github.com/automattic/socket.io-client
+         */
+        socket = io.connect('', {
+          'forceNew'  : true,
+          reconnection: false
+        });
+        socket.on('connect', function () {
+          createNickname($('#nickname').val());
+        });
+        socket.on('user_list', function (clients) {
+          //심플테스트 버젼이라서 삭제하고 새로 갱신하는방안
+          $('#userList').html('');
+          for (var i in clients) {
+            if (clients[i] == $('#nickname').val()) {
+              sHtml = '<li style="font-weight:bold;">' + clients[i] + '</li>';
+            } else {
+              sHtml = '<li>' + clients[i] + '</li>';
+            }
+            $('#userList').append(sHtml);
+          }
+        });
+        socket.on('msgPush', function (data) {
+          msgAdd(data);
+        });
+        socket.on('disconnect', function () {
+          $('#msgList').html('');
+          $('#nickname').val('');
+          $('#chatJoin').show();
+          $('#chatRoom').hide();
+          alert('Server Disconnect');
+        });
+        socket.on('connect_error', function (data) {
+          alert('CONNECT_ERROR : ' + data);
+        });
+      });
+    });
+    
+    
+    
+    /*
+    $(function () {
+      //사용자 정보
+      var chatInfo = {
+        id: "#{uuid}",
+        name: "익명",
+        status: "대기중",
+        oldName: "",
+        message: "",
+      };
+      
+      var socket = io();
+      
+      socket.emit('[USER ADD]', chatInfo);
+
+      $('form').submit(function(){
+        chatInfo.message = $('#message').val();
+        socket.emit('[SEND MESSAGE]', chatInfo);
+        $('#message').val('');
+        return false;
+      });
+      
+      socket.on('[SEND MESSAGE]', function(data){
+        $('#messages').append($('<li>').text(data.name + ": " + data.message));
+      });
+      
+      socket.on("[EVENT]", function(data){
+        $('#messages').append($('<li class="bg-info">').text(data));
+      });
+      
+
+      $("#name").on("focus", function(){
+        chatInfo.oldName = $(this).val();
+      }).on("change", function(){
+        chatInfo.name = $(this).val()
+        socket.emit("[NAME CHANGE]", chatInfo);
+      });
+      
+    });
+    */

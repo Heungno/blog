@@ -21,7 +21,8 @@
     "path": "^0.12.7",
     "pug": "^2.0.0-rc.4",
     "serve-favicon": "~2.4.5",
-    "socket.io": "^2.0.4"
+    "socket.io": "^2.0.4",
+    "uuid": "^3.2.1"
   },
   "description": "node.js로 Blog 만들기",
   "main": "app.js",
