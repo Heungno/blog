@@ -1,0 +1,21 @@
+version: "2"
+services:
+  app:
+    container_name: heung-blog
+    restart: always
+    build: /home/heungno/dev/blog/
+    ports:
+        - "3000:3000"
+    volumes:
+        - /home/heungno/dev/blog/:/usr/src/app:rw
+        - /home/data/vol2/uploads:/usr/src/app/uploads:rw
+    links:
+       - mongo
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    restart: always
+    ports:
+        - "27017:27017"
+    volumes:
+        - /home/data/vol2/db:/data/db

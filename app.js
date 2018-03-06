@@ -11,12 +11,8 @@ const logger = require('morgan');
 
 const app = express();
 
-
-
 // pug 소스보기 줄바꿈 
 app.locals.pretty = app.get('env') === 'development' ? true : false;
-
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -65,7 +61,5 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error');
 });
-
-
 
 module.exports = app;
