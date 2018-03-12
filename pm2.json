@@ -2,8 +2,9 @@
     "apps":[{
         "name": "heung-blog",
         "script": "./bin/www",
-        "instances": 0,
+        "instances": 1,
         "post_update": ["npm install", "echo 시작 ..."],
+        "watch": true,
         "env": {
             "NODE_ENV": "development"
         },

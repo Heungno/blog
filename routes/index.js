@@ -7,7 +7,7 @@ const upload = multer({
 });
 
 const pageInfo = {
-  title: "흥",
+  title: "가즈아!!!",
   catagory: "",
   description: "",
 };
