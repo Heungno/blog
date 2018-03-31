@@ -21,7 +21,7 @@ router.get('/', function(req, res, next) {
 });
 
 // file upload
-router.post('/upload', upload.single('file'), function(req,res){
+router.post('/upload', upload.single('file'), function(req, res) {
   console.log(req.file);
   res.send(req.file); // object를 리턴함
 });
@@ -30,21 +30,28 @@ router.post('/upload', upload.single('file'), function(req,res){
 router.get('/:catagory/input', function(req, res, next) {
   pageInfo.catagory = req.params.catagory;
   pageInfo.description = "Node.js MongoDB PUG ";
-  res.render('index', { pageInfo: pageInfo });
+  res.render('index', {
+    pageInfo: pageInfo
+  });
 });
 
 /* GET 리스트 페이지*/
 router.get('/:catagory', function(req, res, next) {
   pageInfo.catagory = req.params.catagory;
   pageInfo.description = "Node.js MongoDB PUG ";
-  res.render('bbs/list', { pageInfo: pageInfo });
+  res.render('bbs/list', {
+    pageInfo: pageInfo
+  });
 });
 
 /* GET 리스트 페이지*/
 router.get('/chat/side', function(req, res, next) {
   pageInfo.catagory = "chat";
   pageInfo.description = "chaat pate ";
-  res.render('chat/side',{pageInfo: pageInfo, uuid: uuidv1()});
+  res.render('chat/side', {
+    pageInfo: pageInfo,
+    uuid: uuidv1()
+  });
 });
 
 module.exports = router;
