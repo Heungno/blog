@@ -39,6 +39,7 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('Successfully connected to mongodb'))
   .catch(e => console.error(e));
 
+
 // routes
 app.use('/', require('./routes/index'));
 require('./routes/posts-route')(app, require('./routes/posts'));
