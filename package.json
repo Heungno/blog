@@ -29,7 +29,7 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Heungno/blog.git"
+    "url": "https://github.com/Heungno/blog.git"
   },
   "keywords": [
     "blog",
@@ -38,7 +38,6 @@
     "mongodb"
   ],
   "author": "Heungno",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/Heungno/blog/issues"
   },
